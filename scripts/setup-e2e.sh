@@ -34,15 +34,15 @@ install_auth_js () {
 
 # Install required node version
 export NVM_DIR="/root/.nvm"
-setup_service node v22.16.1
+setup_service node v22.13.1
 setup_service python 3.6
 
-# Install yarn
-# Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
+if ! npm install -g yarn@1.22.22; then
+  echo "Failed to install yarn"
+  exit ${FAILED_SETUP}
+fi
 
-# Add yarn to the $PATH so npm cli commands do not fail
-export PATH="${PATH}:$(yarn global bin)"
+export PATH="$PATH:$(npm config get prefix)/bin"
 
 cd ${OKTA_HOME}/${REPO}
 
