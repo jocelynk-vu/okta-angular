@@ -120,7 +120,8 @@ describe('Angular auth guard', () => {
           initialUrl: router.parseUrl('fakepath'),
           previousNavigation: null,
           trigger: 'imperative',
-        });
+          abort: jest.fn(),
+        } as any);
 
         await guard.canLoad(route);
         expect(oktaAuth.setOriginalUri).toHaveBeenCalledWith('/path?query=foo&bar=baz#hash=foo');

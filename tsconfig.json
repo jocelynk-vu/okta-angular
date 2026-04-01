@@ -10,7 +10,7 @@
         "strict": true,
         "strictPropertyInitialization": false,
         "module": "ES2022",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "rootDir": ".",
         "sourceMap": true,
         "inlineSources": true,
