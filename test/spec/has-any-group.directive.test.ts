@@ -5,12 +5,13 @@ import { of } from 'rxjs';
 import { OktaHasAnyGroupDirective } from '../../lib/src/okta/has-any-group.directive';
 import { OktaAuthStateService } from '../../lib/src/okta-angular';
 
-@Component({ 
+@Component({
+  standalone: false,
   template: `
   <div *oktaHasAnyGroup="['test']">
     <div id="content">In group</div>
   </div>
-  ` 
+  `
 })
 class MockComponent {}
 

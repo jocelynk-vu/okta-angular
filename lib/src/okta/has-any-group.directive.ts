@@ -3,7 +3,7 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { OktaAuthStateService, Groups } from './services/auth-state.service';
 
-@Directive({ selector: '[oktaHasAnyGroup]'})
+@Directive({ standalone: false, selector: '[oktaHasAnyGroup]'})
 export class OktaHasAnyGroupDirective implements OnInit, OnChanges, OnDestroy {
   private groupsSub$: Subject<Groups> = new ReplaySubject<Groups>();
   private destroySub$ = new Subject<void>();
