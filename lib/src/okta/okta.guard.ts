@@ -29,7 +29,7 @@ import { OktaAuth, AuthState, TokenParams } from '@okta/okta-auth-js';
 import { OktaAuthConfigService } from './services/auth-config.serice';
 import { AuthRequiredFunction, OKTA_AUTH } from './models/okta.config';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OktaAuthGuard implements CanActivate, CanActivateChild, CanLoad {
   private state: RouterStateSnapshot;
   private routeData: Data;

@@ -16,7 +16,7 @@ import { OKTA_AUTH } from '../models/okta.config';
 import { OktaAuthConfigService } from '../services/auth-config.serice';
 
 @Component({
-  standalone: false,
+  standalone: true,
   template: `<div>{{error}}</div>`
 })
 export class OktaCallbackComponent implements OnInit {

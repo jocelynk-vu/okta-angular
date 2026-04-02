@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AuthSdkError, OktaAuth } from '@okta/okta-auth-js';
-import { OktaAuthModule, OKTA_AUTH } from '../../lib/src/okta-angular';
+import { provideOktaAuth, OKTA_AUTH } from '../../lib/src/okta-angular';
 
 jest.mock('../../lib/src/okta/packageInfo', () => ({
   __esModule: true,
@@ -13,17 +13,15 @@ jest.mock('../../lib/src/okta/packageInfo', () => ({
   }
 }));
 
-@Component({ standalone: false, template: '' })
+@Component({ standalone: true, template: '' })
 class MockComponent {}
 
 function setupForRoot(oktaAuth: OktaAuth) {
   TestBed.configureTestingModule({
-    imports: [
-      OktaAuthModule.forRoot({ oktaAuth })
-    ],
-    declarations: [ MockComponent ],
+    imports: [ MockComponent ],
     providers: [
-      provideRouter([{ path: 'foo', redirectTo: '/foo' }])
+      provideRouter([{ path: 'foo', redirectTo: '/foo' }]),
+      provideOktaAuth({ oktaAuth }),
     ],
   });
   return TestBed.createComponent(MockComponent);

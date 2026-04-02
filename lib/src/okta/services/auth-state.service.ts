@@ -10,7 +10,7 @@ const defaultAuthState = {
 
 export type Groups = string | string[] | { [key: string]: string[] };
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OktaAuthStateService implements OnDestroy {
   private _authState: BehaviorSubject<AuthState> = new BehaviorSubject<AuthState>(defaultAuthState);
   

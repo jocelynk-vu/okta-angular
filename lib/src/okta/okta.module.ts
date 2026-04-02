@@ -10,20 +10,28 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { NgModule, ModuleWithProviders, Optional } from '@angular/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { OktaCallbackComponent } from './components/callback.component';
-import { OktaAuthGuard } from './okta.guard';
-import { OktaAuthConfigService } from './services/auth-config.serice';
-import { OktaAuthStateService } from './services/auth-state.service';
-import { OktaAuthFactoryService } from './services/auth-factory.service';
 import { OktaHasAnyGroupDirective } from './has-any-group.directive';
-import { OktaConfig, OKTA_CONFIG, OKTA_AUTH } from './models/okta.config';
+import { OktaConfig } from './models/okta.config';
+import { provideOktaAuth } from './okta.providers';
 
-
+/**
+ * @deprecated Use `provideOktaAuth()` instead for standalone applications.
+ *
+ * @example
+ * ```typescript
+ * // Standalone (recommended):
+ * bootstrapApplication(AppComponent, {
+ *   providers: [provideOktaAuth({ oktaAuth })]
+ * });
+ *
+ * // NgModule (deprecated):
+ * @NgModule({ imports: [OktaAuthModule.forRoot({ oktaAuth })] })
+ * ```
+ */
 @NgModule({
-  declarations: [
+  imports: [
     OktaCallbackComponent,
     OktaHasAnyGroupDirective,
   ],
@@ -31,31 +39,12 @@ import { OktaConfig, OKTA_CONFIG, OKTA_AUTH } from './models/okta.config';
     OktaCallbackComponent,
     OktaHasAnyGroupDirective,
   ],
-  providers: [
-    OktaAuthConfigService,
-    OktaAuthStateService,
-    OktaAuthGuard,
-    {
-      provide: OKTA_AUTH,
-      useFactory: OktaAuthFactoryService.createOktaAuth,
-      deps: [
-        OktaAuthConfigService,
-        [new Optional(), Router],
-        [new Optional(), Location]
-      ]
-    },
-  ]
 })
 export class OktaAuthModule {
   static forRoot(config?: OktaConfig): ModuleWithProviders<OktaAuthModule> {
     return {
       ngModule: OktaAuthModule,
-      providers: [
-        { provide: OKTA_CONFIG, useValue: config },
-      ]
+      providers: provideOktaAuth(config),
     };
   }
-
-  // Should not have constructor to support lazy load of config with APP_INITIALIZER
-
 }
